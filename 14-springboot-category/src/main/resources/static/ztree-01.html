@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/ztree/css/metroStyle/metroStyle.css" type="text/css">
+
+</head>
+<body>
+
+<div>
+    <ul id="treeDemo" class="ztree"></ul>
+</div>
+<script type="text/javascript" src="/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="/ztree/js/jquery.ztree.all.js"></script>
+<SCRIPT LANGUAGE="JavaScript">
+    var zTreeObj;
+    // zTree 的参数配置，深入使用请参考 API 文档（setting 配置详解）
+    var setting = {
+        data : {
+            simpleData : {
+                enable : true,//表示使用简单数据模式
+                idKey : "id",  //节点数据中保存唯一标识的属性名称
+                pIdKey : "parentId",  //节点数据中保存其父节点唯一标识的属性名称
+                rootPId : null  //根节点id
+            }//json 格式javascript对象
+        }
+    }//json 格式的javascript对象
+    // zTree 的数据属性，深入使用请参考 API 文档（zTreeNode 节点数据详解）
+    $(document).ready(function(){
+        let url="http://localhost/category/doFindCategorys";
+        $.get(url,function(result){
+            console.log(result);
+            zTreeObj = $.fn.zTree.init($("#treeDemo"), setting, result);
+        })
+    });
+</SCRIPT>
+</body>
+</html>

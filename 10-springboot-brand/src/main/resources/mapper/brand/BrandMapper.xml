@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cy.pj.brand.dao.BrandDao">
+
+    <insert id="insertBrand">
+        insert into tb_brand
+        (name,remark,createdTime)
+        values
+        (#{name},#{remark},now())
+    </insert>
+
+    <select id="findBrands" resultType="com.cy.pj.brand.pojo.Brand">
+        select id,name,remark,createdTime
+        from tb_brand
+        <if test="name!=null and name!=''">
+            where name like concat("%",#{name},"%")
+        </if>
+    </select>
+
+</mapper>

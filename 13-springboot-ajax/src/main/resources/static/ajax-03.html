@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+  <h1>The Ajax 03 Page</h1>
+  <button onclick="doAjaxGet()">Do Ajax Get</button>
+  <button onclick="doAjaxPost()">Do Ajax Post</button>
+  <button onclick="doAjaxDelete()">Do Ajax Delete</button>
+  <button onclick="doAjaxUpdate()">Do Ajax Update</button>
+  <div id="result"></div>
+  <script src="/js/ajax.js"></script>
+  <script>
+      //发送ajax get请求,将服务端doAjaxGet函数的响应结果更新到result位置
+      function doAjaxGet(){
+        let url="http://localhost/doAjaxGet";
+        let params="";
+        ajaxGet(url,params,function(result){
+            document.getElementById("result").innerHTML=result;
+        })
+      }
+      function doAjaxPost(){
+          let url="http://localhost/doAjaxPost";
+          let params="id=101&name=Computer&remark=Computer...";
+          ajaxPost(url,params,function(result){
+              alert(result);
+              doAjaxGet();
+          })
+      }
+
+      function doAjaxDelete(){
+        let url="http://localhost/doAjaxDelete";
+        let params="id=101";
+        ajaxDelete(url,params,function(result){
+            alert(result);
+            doAjaxGet();
+        })
+      }
+
+      function doAjaxUpdate(){
+          let url="http://localhost/doAjaxUpdate";
+          let params="id=101&name=Book&remark=Book...";
+          ajaxPut(url,params,function(result){
+              alert(result);
+              doAjaxGet();
+          })
+      }
+  </script>
+
+</body>
+</html>

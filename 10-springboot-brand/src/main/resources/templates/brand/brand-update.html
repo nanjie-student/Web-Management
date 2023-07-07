@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.css">
+</head>
+<body>
+   <div class="container">
+       <h1>The Brand Update Page</h1>
+       <form th:action="@{/brand/doUpdateBrand}" method="post">
+           <!-- 隐藏表单 -->
+           <input type="hidden" name="id" th:value="${brand.id}">
+           <div class="form-group">
+               <label for="nameId">Name</label>
+               <input type="text" class="form-control"
+                      name="name" id="nameId" th:value="${brand.name}"
+                      placeholder="Brand Name">
+           </div>
+           <div class="form-group">
+               <label for="remarkId">Remark</label>
+               <textarea class="form-control" rows="5" cols="100" name="remark" th:text="${brand.remark}" id="remarkId">
+               </textarea>
+           </div>
+           <button type="submit" class="btn btn-default">Save</button>
+       </form>
+   </div>
+</body>
+</html>

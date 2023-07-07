@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Hello, Bootstrap Table!</title>
+
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="/treegrid/bootstrap-table.css">
+
+    <link rel="stylesheet" href="/treegrid/jquery.treegrid.css" >
+    <link rel="stylesheet" href="/treegrid/bootstrap-table.css" >
+</head>
+<body>
+
+<table id="table"></table>
+<script src="/jquery/jquery.min.js" ></script>
+<script src="/bootstrap/js/bootstrap.js"></script>
+<script src="/treegrid/jquery.treegrid.js"></script>
+<script src="/treegrid/bootstrap-table.js"></script>
+<script src="/treegrid/bootstrap-table-treegrid.min.js"></script>
+<script>
+    var $table = $('#table')
+
+    $(function() {
+        $table.bootstrapTable({
+            url: '/category/doFindCategorys',
+            idField: 'id',
+            showColumns: true,
+            columns: [
+                {
+                    field: 'ck',
+                    checkbox: true
+                },
+                {
+                    field: 'name',
+                    title: '名称'
+                },
+                {
+                    field: 'remark',
+                    title: '备注',
+                },
+
+            ],
+            treeShowField: 'name',
+            parentIdField: 'parentId',
+            onPostBody: function() {
+                var columns = $table.bootstrapTable('getOptions').columns
+
+                if (columns && columns[0][1].visible) {
+                    $table.treegrid({
+                        treeColumn: 1,
+                        onChange: function() {
+                            $table.bootstrapTable('resetView')
+                        }
+                    })
+                }
+            }
+        })
+    })
+
+    function typeFormatter(value, row, index) {
+        if (value === 'menu') {
+            return '菜单'
+        }
+        if (value === 'button') {
+            return '按钮'
+        }
+        if (value === 'api') {
+            return '接口'
+        }
+        return '-'
+    }
+
+    function statusFormatter(value, row, index) {
+        if (value === 1) {
+            return '<span class="label label-success">正常</span>'
+        }
+        return '<span class="label label-default">锁定</span>'
+    }
+</script>
+</body>
+</html>

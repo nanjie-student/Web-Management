@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>The Axios Ajax 01 Page</h1>
+<button onclick="doAjaxGet()">axios.get(..)</button>
+<button onclick="doAjaxPost()">axios.post(..)</button>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+    function doAjaxGet(){
+        axios.get('http://localhost/doAjaxGet')
+             .then(function (response) {//response为服务端响应的结果
+                console.log(response.data);
+              })//服务端响应状态status为200时,执行then函数内部的内容
+             .catch(function (error) {
+                console.log(error);
+              });
+    }
+    function doAjaxPost(){
+        axios.post('http://localhost/doAjaxPost?id=101&name=Computer')
+        .then(function (response) {
+            console.log(response.data);
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+    }
+    //..........
+</script>
+</body>
+</html>

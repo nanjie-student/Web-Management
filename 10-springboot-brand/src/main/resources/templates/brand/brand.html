@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.css">
+</head>
+<body>
+ <div class="container">
+   <h1>The Brand Page</h1>
+   <!--定义查询表单,这里的th:action为thymeleaf中的自定标签属性,用于指定url,
+   @{}表达式为thymeleaf中定义url的一种表达式,会自动在url中添加一个前缀,构成绝对路径-->
+   <!-- 传统方式url方式的定义
+   <form th:action="@{/brand/doFindBrands}" method="get">
+       <input type="text" name="name">
+       <input type="submit" value="Search">
+   </form>
+   -->
+
+   <!-- 基于js方式提交表单数据-->
+   <form class="form-inline">
+         <div class="form-group">
+             <input type="text"  name="name" class="form-control"  placeholder="brand name">
+         </div>
+         <button type="button" onclick="doSearch()" class="btn btn-primary btn-sm">Search</button>
+         <button type="button" onclick="doAddUI()" class="btn btn-primary btn-sm">Add Brand</button>
+   </form>
+   <table class="table">
+       <thead>
+         <tr>
+           <th>id</th>
+           <th>name</th>
+           <th>createdTime</th>
+           <th colspan="2">operation</th>
+         </tr>
+       </thead>
+       <tbody>
+          <!--th:each 是thymeleaf中定义的用于迭代集合的一个循环标签属性-->
+          <tr th:each="brand: ${list}"><!--list来controller中的model-->
+           <td th:text="${brand.id}">10</td><!--th:text是呈现文本时的一种标签属性-->
+           <td th:text="${brand.name}">AAA</td>
+           <td th:text="${#dates.format(brand.createdTime, 'yyyy/MM/dd HH:mm')}">2020/10/11</td><!--日期格式化的写法要参考官方文档19章节dates菜单-->
+           <td>
+               <!--
+               <a  th:href="@{/brand/doDeleteById/{id}(id=${brand.id})}">delete</a>
+               -->
+               <button type="button" th:onclick="doDeleteById([[${brand.id}]])" class="btn btn-danger btn-xs">delete</button>
+
+           </td>
+            <td>
+               <button type="button" th:onclick="doFindById([[${brand.id}]])" class="btn btn-danger btn-xs">update</button>
+            </td>
+          </tr>
+       </tbody>
+   </table>
+ </div>
+<script>
+    function doAddUI(){
+        location.href="/brand/doAddUI";
+    }
+    function doFindById(id){
+        //执行删除业务
+        location.href=`http://localhost/brand/doFindById/${id}`;
+    }
+    function doDeleteById(id){
+        //给出提示信息
+       if(!confirm("您确认删除吗"))return;//confirm为浏览器中window对象的函数
+        //执行删除业务
+        location.href=`http://localhost/brand/doDeleteById/${id}`;
+    }
+    function doSearch(){
+       //console.log("doSearch()");
+       //获取form表单中的数据
+       let name=document.forms[0].name.value;
+       //console.log("name",name);
+       //定义url
+       let url=`http://localhost/brand/doFindBrands/${name}`;//rest
+       //访问对应的url (这种形式的访问将来会改成异步)
+       location.href=url;
+    }
+</script>
+</body>
+</html>

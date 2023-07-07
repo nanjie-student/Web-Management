@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+  <h1>The Ajax 01 Page</h1>
+  <button onclick="doAjaxStart()">Ajax Get Request</button>
+  <span id="result">Data is Loading ...</span>
+  <script>
+      //js中错误的调试:console.log(),断点(debugger),排除法
+     function doAjaxStart(){
+         //console.log(" doAjaxGet01()");
+         debugger//客户端断点(此断点生效需要打开控制台)
+         //1.创建XHR对象(XmlHttpRequest)-Ajax应用的入口对象
+         let xhr=new XMLHttpRequest();
+         //2.在XHR对象上注册状态监听(拿到服务端响应结果以后更新到页面result位置)
+         xhr.onreadystatechange=function(){//事件处理函数(客户端与服务端通讯状态发生变化时会执行此函数)
+             //readyState==4表示服务端响应到客户端数据已经接收完成.
+             if(xhr.readyState==4){
+                 if(xhr.status==200) {//status==200表示请求处理过程没问题
+                     document.getElementById("result").innerHTML =
+                         xhr.responseText;
+                 }
+             }
+         }
+         //3.与服务端建立连接(指定请求方式,请求url,异步)
+         xhr.open("GET","http://localhost/doAjaxGet01",true);//true代表异步
+         //4.向服务端发送请求
+         xhr.send(null);//get请求send方法内部不传数据或者写一个null
+         console.log("===main thread===")
+         //假如是异步客户端执行完send会继续向下执行.
+     }
+  </script>
+</body>
+</html>
